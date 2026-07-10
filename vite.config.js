@@ -41,7 +41,8 @@ function agendaDevApi() {
   };
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/cantoratati/' : '/',
   root: '.',
   publicDir: 'public',
   server: {
@@ -64,4 +65,4 @@ export default defineConfig({
     },
     assetsInlineLimit: 4096,
   },
-});
+}));

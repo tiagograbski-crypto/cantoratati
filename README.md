@@ -17,6 +17,23 @@ npm run dev
 
 Abre em: http://localhost:5173/
 
+## Publicação (GitHub Pages)
+
+O site publicado fica em: https://tiagograbski-crypto.github.io/cantoratati/
+
+Cada push na branch `main` dispara o workflow que roda `npm run build` e publica a pasta `dist/`.
+
+No repositório GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+Para testar o build localmente como no GitHub:
+
+```bash
+npm run build
+npm run preview
+```
+
+Abre em: http://localhost:4173/cantoratati/
+
 ## Scripts úteis
 
 | Comando | Descrição |

@@ -106,7 +106,7 @@ function applyAgendaPayload(payload) {
 }
 
 async function fetchAgendaFromSite() {
-    const response = await fetch(`/data/agenda.json?t=${Date.now()}`, { cache: 'no-store' });
+    const response = await fetch(`${import.meta.env.BASE_URL}data/agenda.json?t=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) throw new Error('Arquivo de agenda não encontrado.');
     return response.json();
 }
