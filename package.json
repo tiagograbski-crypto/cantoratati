@@ -9,10 +9,14 @@
     "assets": "node scripts/download-assets.mjs",
     "images": "node scripts/optimize-images.mjs",
     "build": "vite build",
-    "preview": "vite preview --host"
+    "build:check": "node scripts/smoke-test.mjs",
+    "preview": "vite preview --host",
+    "ci": "npm run build && npm run build:check"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.2",
     "sharp": "^0.35.2",
+    "tailwindcss": "^4.3.2",
     "vite": "^6.3.5"
   }
 }

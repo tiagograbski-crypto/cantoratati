@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 import { writeFile, mkdir } from 'fs/promises';
 import { dirname } from 'path';
+import tailwindcss from '@tailwindcss/vite';
 
 const AGENDA_FILE = resolve(__dirname, 'public/data/agenda.json');
 
@@ -41,28 +42,36 @@ function agendaDevApi() {
   };
 }
 
-export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/cantoratati/' : '/',
-  root: '.',
-  publicDir: 'public',
-  server: {
-    host: true,
-    port: 5173,
-    open: false,
-  },
-  preview: {
-    host: true,
-    port: 4173,
-  },
-  plugins: [agendaDevApi()],
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-      },
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  const base = env.VITE_BASE_PATH || (mode === 'production' ? '/cantoratati/' : '/');
+
+  return {
+    base,
+    root: '.',
+    publicDir: 'public',
+    server: {
+      host: true,
+      port: 5173,
+      open: false,
     },
-    assetsInlineLimit: 4096,
-  },
-}));
+    preview: {
+      host: true,
+      port: 4173,
+    },
+    plugins: [tailwindcss(), agendaDevApi()],
+    build: {
+      outDir: 'dist',
+      emptyOutDir: true,
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html'),
+        },
+      },
+      assetsInlineLimit: 4096,
+      sourcemap: false,
+      cssMinify: true,
+      minify: 'esbuild',
+    },
+  };
+});

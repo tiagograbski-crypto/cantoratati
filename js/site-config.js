@@ -1,12 +1,15 @@
 import { asset } from './base-url.js';
 
+const adminEnabled = import.meta.env.DEV || import.meta.env.VITE_ADMIN_ENABLED === 'true';
+
 window.SITE_CONFIG = {
     whatsapp: '5549991136430',
     whatsappDisplay: '(49) 99113-6430',
     instagram: 'https://www.instagram.com/tativanzan/',
     youtube: 'https://www.youtube.com/shorts/_FmobhKevFk',
     admin: {
-        pin: '1234',
+        enabled: adminEnabled,
+        pin: import.meta.env.VITE_ADMIN_PIN || '1234',
     },
     images: {
         hero: {

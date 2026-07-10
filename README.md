@@ -4,30 +4,42 @@ Site da cantora **Tati Vanzan** (pagode e sertanejo), com foco em conversão e r
 
 ## Stack
 
-- HTML + CSS + JavaScript (Vite)
-- Tailwind (CDN)
-- Agenda local em `public/data/agenda.json`
+- Vite 6 + HTML/CSS/JS
+- Tailwind CSS (build-time, sem CDN)
+- Agenda em `public/data/agenda.json`
+- Deploy automático via GitHub Actions → GitHub Pages
 
 ## Desenvolvimento local
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
 Abre em: http://localhost:5173/
 
-## Publicação (GitHub Pages)
+Variáveis em `.env.local`:
 
-O site publicado fica em: https://tiagograbski-crypto.github.io/cantoratati/
+| Variável | Descrição |
+|---|---|
+| `VITE_BASE_PATH` | `/` no dev local |
+| `VITE_ADMIN_ENABLED` | `true` para painel admin |
+| `VITE_ADMIN_PIN` | Senha do admin (somente dev) |
 
-Cada push na branch `main` dispara o workflow que roda `npm run build` e publica a pasta `dist/` na branch `gh-pages`.
+## Produção
 
-**Configuração única no GitHub:** Settings → Pages → Build and deployment → Source: **Deploy from a branch** → Branch: **`gh-pages`** → **`/ (root)`**.
+**URL:** https://tiagograbski-crypto.github.io/cantoratati/
 
-Depois disso o site fica em: https://tiagograbski-crypto.github.io/cantoratati/
+Cada push em `main` executa:
 
-Para testar o build localmente como no GitHub:
+1. `npm run build` (bundle em `dist/`)
+2. `npm run build:check` (smoke test)
+3. Deploy oficial do GitHub Pages (artefato `dist/`)
+
+**Configuração única no GitHub:** Settings → Pages → Source: **GitHub Actions**.
+
+Preview local idêntico ao ar:
 
 ```bash
 npm run build
@@ -36,35 +48,38 @@ npm run preview
 
 Abre em: http://localhost:4173/cantoratati/
 
-## Scripts úteis
+## Scripts
 
 | Comando | Descrição |
-|---------|-----------|
+|---|---|
 | `npm run dev` | Servidor de desenvolvimento |
-| `npm run build` | Build de produção em `dist/` |
+| `npm run build` | Build de produção |
+| `npm run build:check` | Valida `dist/` antes do deploy |
+| `npm run ci` | Build + validação (usado na CI) |
 | `npm run preview` | Preview do build |
 | `npm run images` | Otimização de imagens |
 
-## Estrutura do projeto
+## Estrutura
 
 ```
-├── index.html          # Página principal
-├── css/main.css        # Estilos (tema dark premium)
-├── js/                 # Lógica (agenda, UI, config)
-├── public/data/        # Agenda JSON + favicon
-├── assets/images/      # Imagens do site
-├── scripts/            # Utilitários (assets, imagens)
-├── vite.config.js      # Vite + API local da agenda
-└── package.json
+├── index.html
+├── css/main.css
+├── js/
+├── public/data/agenda.json
+├── assets/images/
+├── scripts/
+├── vite.config.js
+└── .github/workflows/deploy-pages.yml
 ```
 
-## Agenda (admin)
+## Agenda (admin — apenas local)
 
-1. Rodar `npm run dev`
-2. Clicar no cadeado no rodapé
-3. Senha padrão: `1234` (alterar em `js/site-config.js`)
-4. Marcar datas como **reservado** ou **indisponível**
-5. Clicar em **Salvar agenda** → grava em `public/data/agenda.json`
+1. `npm run dev` com `VITE_ADMIN_ENABLED=true`
+2. Cadeado no rodapé
+3. Marcar datas como **reservado** ou **indisponível**
+4. **Salvar agenda** → grava em `public/data/agenda.json`
+
+Em produção o admin fica **desativado** por segurança.
 
 ## Repositório
 

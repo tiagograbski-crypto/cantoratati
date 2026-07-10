@@ -1,3 +1,22 @@
+@import "tailwindcss";
+@source "../index.html";
+@source "../js/**/*.js";
+
+@theme {
+    --color-night-950: #070605;
+    --color-night-900: #0D0B0A;
+    --color-night-800: #1A1512;
+    --color-night-700: #2C2421;
+    --color-gold-300: #F5E6B8;
+    --color-gold-400: #E8C468;
+    --color-gold-500: #D4A84B;
+    --color-gold-600: #B8860B;
+    --color-brand-terracotta: #B9734C;
+    --color-brand-espresso: #2C2421;
+    --font-serif: "Playfair Display", serif;
+    --font-sans: "Plus Jakarta Sans", sans-serif;
+}
+
 /* ── Tati Vanzan · Dark Premium Conversion ── */
 :root {
     --text-display: clamp(2rem, 5vw + 0.5rem, 4.25rem);

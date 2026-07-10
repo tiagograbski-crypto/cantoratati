@@ -3,7 +3,8 @@ import { getBaseUrl } from './base-url.js';
 const STORAGE_KEY = 'agenda_tati_vanzan';
 
 const cfg = window.SITE_CONFIG || {};
-const ADMIN_PIN = cfg.admin?.pin || '1234';
+const ADMIN_ENABLED = Boolean(cfg.admin?.enabled);
+const ADMIN_PIN = ADMIN_ENABLED ? (cfg.admin?.pin || '') : '';
 
 const STATUS = {
     AVAILABLE: 'available',
@@ -35,8 +36,8 @@ const adminMarkBlockedBtn = document.getElementById('admin-mark-blocked');
 const adminMarkFreeBtn = document.getElementById('admin-mark-free');
 
 function normalizeStatus(raw) {
-    if (raw === 'occupied' || raw === STATUS.BLOCKED) return STATUS.BLOCKED;
-    if (raw === STATUS.RESERVED) return STATUS.RESERVED;
+    if (raw === 'occupied' || raw === STATUS.RESERVED) return STATUS.RESERVED;
+    if (raw === STATUS.BLOCKED) return STATUS.BLOCKED;
     return STATUS.AVAILABLE;
 }
 
@@ -108,18 +109,9 @@ function applyAgendaPayload(payload) {
 }
 
 async function fetchAgendaFromSite() {
-    const base = getBaseUrl();
-    const candidates = [
-        `${base}data/agenda.json`,
-        `${base}public/data/agenda.json`,
-    ];
-
-    for (const url of candidates) {
-        const response = await fetch(`${url}?t=${Date.now()}`, { cache: 'no-store' });
-        if (response.ok) return response.json();
-    }
-
-    throw new Error('Arquivo de agenda não encontrado.');
+    const response = await fetch(`${getBaseUrl()}data/agenda.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok) throw new Error('Arquivo de agenda não encontrado.');
+    return response.json();
 }
 
 async function loadAgenda() {
@@ -324,6 +316,7 @@ const adminModalContent = document.getElementById('admin-modal-content');
 const adminPinInput = document.getElementById('admin-pin');
 
 window.openAdminLogin = () => {
+    if (!ADMIN_ENABLED) return;
     adminModal?.classList.remove('opacity-0', 'pointer-events-none');
     setTimeout(() => {
         adminModalContent?.classList.remove('scale-95');
@@ -362,4 +355,13 @@ adminPinInput?.addEventListener('keydown', (e) => {
 
 document.getElementById('admin-save-btn')?.addEventListener('click', saveAgenda);
 
+function configureAdminVisibility() {
+    if (ADMIN_ENABLED) return;
+
+    document.querySelector('[aria-label="Área administrativa"]')?.remove();
+    document.getElementById('admin-modal')?.remove();
+    document.getElementById('admin-dashboard')?.remove();
+}
+
+configureAdminVisibility();
 loadAgenda();
