@@ -21,9 +21,11 @@ Abre em: http://localhost:5173/
 
 O site publicado fica em: https://tiagograbski-crypto.github.io/cantoratati/
 
-Cada push na branch `main` dispara o workflow que roda `npm run build` e publica a pasta `dist/`.
+Cada push na branch `main` dispara o workflow que roda `npm run build` e publica a pasta `dist/` na branch `gh-pages`.
 
-No repositório GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+**Configuração única no GitHub:** Settings → Pages → Build and deployment → Source: **Deploy from a branch** → Branch: **`gh-pages`** → **`/ (root)`**.
+
+Depois disso o site fica em: https://tiagograbski-crypto.github.io/cantoratati/
 
 Para testar o build localmente como no GitHub:
 
