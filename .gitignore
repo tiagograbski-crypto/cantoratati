@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.local
+
+# IDE / ferramentas locais
+.continue/
+.cursor/
+
+# Arquivos de export e rascunhos (não publicar)
+archive/
+docs/
+tati*_files/
+Google Gemini*
+
+# Builds e cache
+.vite/
