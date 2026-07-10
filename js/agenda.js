@@ -1,3 +1,5 @@
+import { getBaseUrl } from './base-url.js';
+
 const STORAGE_KEY = 'agenda_tati_vanzan';
 
 const cfg = window.SITE_CONFIG || {};
@@ -106,9 +108,18 @@ function applyAgendaPayload(payload) {
 }
 
 async function fetchAgendaFromSite() {
-    const response = await fetch(`${import.meta.env.BASE_URL}data/agenda.json?t=${Date.now()}`, { cache: 'no-store' });
-    if (!response.ok) throw new Error('Arquivo de agenda não encontrado.');
-    return response.json();
+    const base = getBaseUrl();
+    const candidates = [
+        `${base}data/agenda.json`,
+        `${base}public/data/agenda.json`,
+    ];
+
+    for (const url of candidates) {
+        const response = await fetch(`${url}?t=${Date.now()}`, { cache: 'no-store' });
+        if (response.ok) return response.json();
+    }
+
+    throw new Error('Arquivo de agenda não encontrado.');
 }
 
 async function loadAgenda() {

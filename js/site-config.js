@@ -1,4 +1,4 @@
-const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+import { asset } from './base-url.js';
 
 window.SITE_CONFIG = {
     whatsapp: '5549991136430',

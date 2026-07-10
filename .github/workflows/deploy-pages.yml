@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
   deploy:
@@ -27,9 +28,35 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Deploy to gh-pages branch
+      - name: Publish dist to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
+
+      - name: Point GitHub Pages to gh-pages
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const source = { branch: 'gh-pages', path: '/' };
+
+            try {
+              await github.rest.repos.updateInformationAboutPagesSite({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                build_type: 'legacy',
+                source,
+              });
+              core.info('GitHub Pages agora usa a branch gh-pages com o build.');
+            } catch (error) {
+              if (error.status !== 404) throw error;
+
+              await github.rest.repos.createPagesSite({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                build_type: 'legacy',
+                source,
+              });
+              core.info('GitHub Pages habilitado com a branch gh-pages.');
+            }
