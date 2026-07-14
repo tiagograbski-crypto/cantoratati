@@ -19,7 +19,7 @@
         body{margin:0;background-color:#0D0B0A;min-height:100dvh}
         .hero-enter,.hero-enter--photo{opacity:0}
     </style>
-    <link rel="preload" as="image" type="image/webp" href="/assets/images/hero/tati-palco-800w.webp" imagesrcset="/assets/images/hero/tati-palco-480w.webp 480w, /assets/images/hero/tati-palco-800w.webp 800w, /assets/images/hero/tati-palco-1200w.webp 1200w" imagesizes="(max-width:640px) 280px, 380px">
+    <link rel="preload" as="image" type="image/webp" href="/assets/images/hero/tati-palco-800w.webp" imagesrcset="/assets/images/hero/tati-palco-480w.webp 480w, /assets/images/hero/tati-palco-800w.webp 800w, /assets/images/hero/tati-palco-1200w.webp 1200w" imagesizes="(max-width: 1023px) 100vw, 52vw">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,27 +72,38 @@
 
     <!-- ═══ HERO · PROMESSA PRINCIPAL ═══ -->
     <section class="hero-section" id="hero">
-        <div class="stage-atmosphere" aria-hidden="true">
-            <div class="stage-lights"></div>
-            <div class="stage-particles"></div>
-        </div>
+        <div class="hero-content-scrim" aria-hidden="true"></div>
 
-        <div class="relative z-10 max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-12">
-            <div class="hero-grid grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-                <div class="hero-content hero-enter order-2 lg:order-1 text-center lg:text-left">
-                    <p class="hero-hook mb-3">O melhor do</p>
-                    <h1 class="font-serif text-display font-bold mb-2 text-balance">
-                        <span class="text-gold-gradient">Pagode e Sertanejo</span>
+        <div class="hero-layout">
+            <div class="hero-photo hero-enter hero-enter--photo">
+                <div class="hero-photo-atmosphere stage-atmosphere" aria-hidden="true">
+                    <div class="stage-lights"></div>
+                    <div class="stage-particles"></div>
+                </div>
+                <picture class="hero-photo__picture">
+                    <source type="image/webp" srcset="/assets/images/hero/tati-palco-480w.webp 480w, /assets/images/hero/tati-palco-800w.webp 800w, /assets/images/hero/tati-palco-1200w.webp 1200w" sizes="(max-width: 1023px) 100vw, 52vw">
+                    <img src="assets/images/hero/tati-palco-800w.jpg" srcset="assets/images/hero/tati-palco-480w.jpg 480w, assets/images/hero/tati-palco-800w.jpg 800w, assets/images/hero/tati-palco-1200w.jpg 1200w" sizes="(max-width: 1023px) 100vw, 52vw" alt="Tati Vanzan no palco — cantora de pagode e sertanejo" fetchpriority="high" width="800" height="1000" class="hero-photo__img">
+                </picture>
+                <div class="hero-photo__fade" aria-hidden="true"></div>
+                <div class="hero-corner-banner" aria-hidden="true">
+                    <span class="hero-corner-banner__shine"></span>
+                    <span class="hero-corner-banner__label">Show ao vivo</span>
+                </div>
+            </div>
+
+            <div class="hero-inner max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-12">
+                <div class="hero-content hero-enter text-center lg:text-left">
+                    <h1 class="font-serif text-display font-bold mb-4 text-balance text-[#F5F0EB]">
+                        <span class="text-gold-gradient">Pagode e sertanejo</span> pra sua festa
                     </h1>
-                    <p class="font-serif text-h1 font-semibold text-[#F5F0EB] mb-4">pra sua festa!</p>
-                    <p class="text-body-lg text-muted italic mb-6 max-w-lg mx-auto lg:mx-0">
-                        Do samba que anima, ao modão que emociona!
+                    <p class="text-body-lg text-muted mb-6 max-w-lg mx-auto lg:mx-0">
+                        Voz ao vivo do samba ao modão — energia do começo ao fim.
                     </p>
 
                     <div class="mb-7 flex justify-center lg:justify-start">
                         <span class="badge-gold badge-gold--single-line">
-                            <i class="fa-solid fa-star" aria-hidden="true"></i>
-                            Animação do começo ao fim!
+                            <i class="fa-solid fa-microphone-lines" aria-hidden="true"></i>
+                            Show ao vivo · SC
                         </span>
                     </div>
 
@@ -115,28 +126,6 @@
                         <i class="fa-regular fa-clock" aria-hidden="true"></i>
                         Retorno em até 2h
                     </p>
-                </div>
-
-                <div class="hero-photo hero-enter hero-enter--photo order-1 lg:order-2 relative flex flex-col items-center w-full">
-                    <div class="hero-photo-backdrop" aria-hidden="true">
-                        <span class="hero-ring hero-ring--outer"></span>
-                        <span class="hero-ring hero-ring--inner"></span>
-                    </div>
-                    <i class="fa-solid fa-drum hero-instrument hero-instrument--left hidden sm:block" aria-hidden="true"></i>
-                    <i class="fa-solid fa-guitar hero-instrument hero-instrument--right hidden sm:block" aria-hidden="true"></i>
-                    <div class="hero-photo-frame-wrap">
-                        <div class="photo-frame photo-frame--portrait photo-frame--hero photo-frame--stage relative z-10">
-                            <picture>
-                                <source type="image/webp" srcset="/assets/images/hero/tati-palco-480w.webp 480w, /assets/images/hero/tati-palco-800w.webp 800w, /assets/images/hero/tati-palco-1200w.webp 1200w" sizes="(max-width:640px) 280px, 380px">
-                                <img src="assets/images/hero/tati-palco-800w.jpg" srcset="assets/images/hero/tati-palco-480w.jpg 480w, assets/images/hero/tati-palco-800w.jpg 800w, assets/images/hero/tati-palco-1200w.jpg 1200w" sizes="(max-width:640px) 280px, 380px" alt="Tati Vanzan no palco — cantora de pagode e sertanejo" fetchpriority="high" width="800" height="1000" class="photo-frame__img">
-                            </picture>
-                        </div>
-                        <div class="hero-corner-banner" aria-hidden="true">
-                            <span class="hero-corner-banner__shine"></span>
-                            <span class="hero-corner-banner__label">Show ao vivo</span>
-                        </div>
-                    </div>
-                    <p class="mt-3 text-center text-caption text-muted">Palco ao vivo · Energia garantida</p>
                 </div>
             </div>
         </div>
