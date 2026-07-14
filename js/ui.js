@@ -19,15 +19,19 @@ const floatingCta = document.getElementById('floating-cta');
 const heroSection = document.querySelector('.hero-section');
 const mobileCtaQuery = window.matchMedia('(max-width: 767px)');
 
-function syncMobileCtaVisibility(showFloating) {
-    if (!floatingCta) return;
+function syncConversionCtas(scrollY, heroHeight) {
+    const inHero = scrollY < heroHeight - 120;
+    const showFloating = mobileCtaQuery.matches && scrollY > heroHeight - 150;
+    const hideNavbarCta = inHero || showFloating;
 
-    const isMobile = mobileCtaQuery.matches;
-    floatingCta.classList.toggle('floating-cta--visible', isMobile && showFloating);
-    floatingCta.setAttribute('aria-hidden', isMobile && showFloating ? 'false' : 'true');
+    if (floatingCta) {
+        floatingCta.classList.toggle('floating-cta--visible', showFloating);
+        floatingCta.setAttribute('aria-hidden', showFloating ? 'false' : 'true');
+    }
 
     if (navbarCta) {
-        navbarCta.classList.toggle('navbar-cta--suppressed', isMobile && showFloating);
+        navbarCta.classList.toggle('navbar-cta--suppressed', hideNavbarCta);
+        navbarCta.setAttribute('aria-hidden', hideNavbarCta ? 'true' : 'false');
     }
 }
 
@@ -44,12 +48,17 @@ window.addEventListener('scroll', () => {
         navbar.classList.remove('py-3', 'is-scrolled');
     }
 
-    syncMobileCtaVisibility(scrollY > heroHeight - 150);
+    syncConversionCtas(scrollY, heroHeight);
 });
 
 mobileCtaQuery.addEventListener('change', () => {
-    syncMobileCtaVisibility(window.scrollY > (heroSection?.offsetHeight || 0) - 150);
+    const heroHeight = heroSection?.offsetHeight || 0;
+    syncConversionCtas(window.scrollY, heroHeight);
 });
+
+if (heroSection) {
+    syncConversionCtas(window.scrollY, heroSection.offsetHeight);
+}
 
 // Active nav link on scroll
 const navLinks = document.querySelectorAll('[data-nav]');
