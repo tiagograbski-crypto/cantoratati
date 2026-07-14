@@ -55,6 +55,14 @@
     --shadow-cta: 0 0 0 1px rgba(232, 196, 104, 0.55), 0 8px 32px rgba(232, 196, 104, 0.22);
     --shadow-cta-hover: 0 0 0 1px rgba(245, 230, 184, 0.85), 0 12px 40px rgba(232, 196, 104, 0.35);
     --floating-bar-height: 5.25rem;
+
+    --chapter-void: #070605;
+    --chapter-deep: #121010;
+    --chapter-espresso: #1A1512;
+    --chapter-smoke: #2E2723;
+    --chapter-ember: #3A2A1E;
+    --chapter-cream: #F5E6B8;
+    --chapter-cream-mid: #E8C468;
 }
 
 /* Base */
@@ -193,10 +201,39 @@ body.has-floating-cta {
     }
 }
 
-/* Cognitive breaks */
+/* Cognitive breaks — 5 chapter palette */
 .section-dark {
     background: linear-gradient(180deg, var(--night-950) 0%, var(--night-800) 50%, var(--night-950) 100%);
     border-block: 1px solid rgba(232, 196, 104, 0.08);
+}
+
+.section-espresso {
+    background: linear-gradient(180deg, var(--chapter-espresso) 0%, #221C18 48%, var(--chapter-espresso) 100%);
+    border-block: 2px solid rgba(232, 196, 104, 0.22);
+}
+
+.section-smoke {
+    background: linear-gradient(180deg, var(--chapter-smoke) 0%, #262019 50%, #1E1916 100%);
+    border-block: 2px solid rgba(232, 196, 104, 0.18);
+}
+
+.section-ember {
+    background:
+        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(212, 168, 75, 0.14) 0%, transparent 55%),
+        linear-gradient(180deg, var(--chapter-ember) 0%, #2A2218 45%, #1A1510 100%);
+    border-block: 3px solid rgba(212, 168, 75, 0.38);
+}
+
+.section-void {
+    background: linear-gradient(180deg, var(--chapter-deep) 0%, var(--chapter-void) 100%);
+    border-block: 2px solid rgba(232, 196, 104, 0.1);
+}
+
+.section-action {
+    background:
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(212, 168, 75, 0.1) 0%, transparent 50%),
+        linear-gradient(180deg, #1A1510 0%, #2A2218 50%, #1A1510 100%);
+    border-top: 3px solid rgba(212, 168, 75, 0.45);
 }
 
 .section-elevated {
@@ -216,6 +253,48 @@ body.has-floating-cta {
         #241f1b 100%
     );
     border-block: 1px solid rgba(232, 196, 104, 0.14);
+}
+
+.chapter-label {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-400);
+}
+
+.chapter-label::before {
+    content: '';
+    display: inline-block;
+    width: 1.5rem;
+    height: 2px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    background: linear-gradient(90deg, var(--gold-500), var(--copper));
+}
+
+.chapter-divider {
+    height: 3px;
+    margin: 0;
+    border: 0;
+    background: linear-gradient(90deg, transparent, rgba(212, 168, 75, 0.55), transparent);
+}
+
+.section-espresso + .section-espresso {
+    border-top: none;
+    padding-top: 2rem;
+}
+
+.section-smoke + .section-smoke {
+    border-top: none;
+    padding-top: 2rem;
+}
+
+#duvidas .faq-item {
+    background: rgba(46, 39, 35, 0.92);
+    border-color: rgba(232, 196, 104, 0.16);
 }
 
 .section-light__glow {
@@ -609,12 +688,22 @@ summary:focus-visible {
     text-align: center;
     padding: 1.5rem 1.25rem;
     border-radius: 1.25rem;
-    background: rgba(255, 255, 255, 0.045);
+    background: rgba(255, 255, 255, 0.055);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(232, 196, 104, 0.2);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(232, 196, 104, 0.24);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
     transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, transform 0.2s ease;
+}
+
+.section-espresso .event-check-item {
+    background: rgba(7, 6, 5, 0.45);
+    border-color: rgba(232, 196, 104, 0.16);
+}
+
+.section-smoke .testimonial-card {
+    background: rgba(7, 6, 5, 0.42);
+    border-color: rgba(232, 196, 104, 0.14);
 }
 
 .pillar-card:hover {
@@ -1353,6 +1442,28 @@ summary:focus-visible {
     overflow: hidden;
 }
 
+.press-strip--light {
+    background: linear-gradient(90deg, #EDE0B8 0%, var(--chapter-cream) 35%, var(--chapter-cream-mid) 65%, #EDE0B8 100%);
+    border-block: 2px solid rgba(184, 134, 11, 0.35);
+}
+
+.press-strip__title {
+    color: #3D2E1A;
+}
+
+.press-strip--light .press-link {
+    color: #2C2421;
+}
+
+.press-strip--light .press-link:hover {
+    color: #6B4A12;
+    text-decoration-color: rgba(107, 74, 18, 0.45);
+}
+
+.press-strip--light .press-marquee__sep {
+    color: rgba(61, 46, 26, 0.35);
+}
+
 .press-marquee {
     overflow: hidden;
     mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -1442,6 +1553,16 @@ summary:focus-visible {
     padding: 3rem 0;
 }
 
+.conversion-band.section-ember .text-muted {
+    color: #D4C4B0;
+}
+
+.conversion-band.section-ember .btn-cta-secondary {
+    color: var(--gold-300);
+    border-color: rgba(245, 230, 184, 0.45);
+    background: rgba(13, 11, 10, 0.35);
+}
+
 .conversion-band__inner {
     position: relative;
     z-index: 1;
@@ -1470,6 +1591,7 @@ summary:focus-visible {
 /* Capa Pessoas banner */
 .people-banner {
     padding: 1.5rem 0 2.5rem;
+    border-block: 4px solid var(--copper);
 }
 
 .people-banner__frame {
