@@ -547,16 +547,10 @@
             <a href="https://wa.me/5549991136430" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-gold-300 hover:border-gold-500/40 transition text-xl"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
 
-        <div class="footer-legal-row">
-            <p class="text-xs text-muted tracking-wide m-0">
-                © 2026 Tati Vanzan. Todos os direitos reservados.
-            </p>
-            <button type="button" id="footer-admin-btn" onclick="window.openAdminLogin()" class="footer-admin-btn" aria-label="Área administrativa">
-                <i class="fa-solid fa-lock" aria-hidden="true"></i>
-                <span class="footer-admin-btn__label">Admin</span>
-            </button>
-        </div>
-        <div class="footer-safe-spacer" aria-hidden="true"></div>
+        <p class="text-xs text-muted tracking-wide">
+            © 2026 Tati Vanzan. Todos os direitos reservados.
+        </p>
+        <div class="h-4 md:h-0" aria-hidden="true"></div>
     </footer>
 
     <!-- Floating CTA mobile -->
@@ -683,7 +677,20 @@
                     </div>
 
                     <h3 class="font-semibold text-gold-300 mb-2"><i class="fa-solid fa-floppy-disk mr-2"></i>Salvar alterações</h3>
-                    <p class="text-sm text-muted mb-5">Depois de bloquear ou liberar datas, clique em Salvar. No servidor local (<code class="text-gold-300">npm run dev</code>), grava em <code class="text-gold-300">public/data/agenda.json</code>.</p>
+                    <p class="text-sm text-muted mb-3 admin-save-hint admin-save-hint--dev">No <code class="text-gold-300">npm run dev</code>, grava em <code class="text-gold-300">public/data/agenda.json</code>.</p>
+                    <p class="text-sm text-muted mb-3 admin-save-hint admin-save-hint--prod hidden">No site publicado, grava no GitHub e o deploy atualiza o calendário para todos.</p>
+
+                    <div id="admin-github-panel" class="admin-github-panel hidden mb-4 pb-4 border-b border-gold-500/10">
+                        <label for="admin-github-token" class="text-sm font-semibold text-gold-300 block mb-2">
+                            <i class="fa-brands fa-github mr-1"></i> Token GitHub
+                        </label>
+                        <p class="text-caption text-muted mb-2">Cole um token com permissão de escrita no repositório. Fica só nesta sessão do navegador.</p>
+                        <input type="password" id="admin-github-token" autocomplete="off" placeholder="ghp_..." class="form-input mb-2">
+                        <button type="button" id="admin-github-token-save" class="btn-cta-secondary w-full justify-center text-sm">
+                            Guardar token
+                        </button>
+                        <p id="admin-github-token-status" class="text-caption text-muted mt-2" role="status"></p>
+                    </div>
 
                     <p id="admin-last-saved" class="text-caption text-muted mb-3">Último salvamento: —</p>
                     <p id="admin-save-status" class="admin-publish-status admin-publish-status--info mb-4" role="status"></p>

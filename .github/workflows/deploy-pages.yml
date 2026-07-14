@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VITE_BASE_PATH: /cantoratati/
-      VITE_ADMIN_ENABLED: 'false'
+      VITE_ADMIN_PIN: ${{ secrets.VITE_ADMIN_PIN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

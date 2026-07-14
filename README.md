@@ -24,8 +24,31 @@ Variáveis em `.env.local`:
 | Variável | Descrição |
 |---|---|
 | `VITE_BASE_PATH` | `/` no dev local |
-| `VITE_ADMIN_ENABLED` | `true` para painel admin |
-| `VITE_ADMIN_PIN` | Senha do admin (somente dev) |
+| `VITE_ADMIN_PIN` | Senha do painel admin |
+| `VITE_ADMIN_HASH` | Hashtag secreta (padrão: `cantoratati-admin`) |
+| `VITE_GITHUB_REPO` | `owner/repo` para publicar a agenda |
+
+## Agenda (admin)
+
+### Desenvolvimento local
+
+1. `npm run dev`
+2. Painel abre direto (dev) ou via `#cantoratati-admin`
+3. Senha padrão: valor de `VITE_ADMIN_PIN` (`.env.local`, padrão `1234`)
+4. **Salvar agenda** → grava em `public/data/agenda.json`
+
+### Site publicado (GitHub Pages)
+
+**URL do painel:** https://tiagograbski-crypto.github.io/cantoratati/#cantoratati-admin
+
+1. Acesse o link acima (não há cadeado visível no site)
+2. Digite a senha (`VITE_ADMIN_PIN` configurada nos Secrets do GitHub)
+3. Cole um **Personal Access Token** do GitHub com permissão de escrita no repositório
+4. Marque datas e clique em **Salvar agenda** → commit em `public/data/agenda.json` → deploy automático
+
+**GitHub → Settings → Secrets → Actions:** crie `VITE_ADMIN_PIN` com a senha desejada.
+
+**Token GitHub:** [Fine-grained PAT](https://github.com/settings/tokens) com *Contents: Read and write* no repo `cantoratati`. O token fica só na sessão do navegador, não no código.
 
 ## Produção
 
@@ -71,15 +94,6 @@ Abre em: http://localhost:4173/cantoratati/
 ├── vite.config.js
 └── .github/workflows/deploy-pages.yml
 ```
-
-## Agenda (admin — apenas local)
-
-1. `npm run dev` com `VITE_ADMIN_ENABLED=true`
-2. Cadeado no rodapé
-3. Marcar datas como **reservado** ou **indisponível**
-4. **Salvar agenda** → grava em `public/data/agenda.json`
-
-Em produção o admin fica **desativado** por segurança.
 
 ## Repositório
 

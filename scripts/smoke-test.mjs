@@ -28,8 +28,8 @@ if (!existsSync(distDir)) {
     if (!html.includes('Pedir orçamento')) {
       fail('HTML sem CTA unificado "Pedir orçamento".');
     }
-    if (!html.includes('footer-admin-btn')) {
-      fail('HTML sem botão footer-admin-btn.');
+    if (!html.includes('id="admin-modal"')) {
+      fail('HTML sem modal administrativo.');
     }
   }
 

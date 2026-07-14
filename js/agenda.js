@@ -1,10 +1,14 @@
 import { getBaseUrl } from './base-url.js';
+import { getGithubPat, saveAgendaToGithub, setGithubPat } from './admin-github.js';
 
 const STORAGE_KEY = 'agenda_tati_vanzan';
 
 const cfg = window.SITE_CONFIG || {};
-const ADMIN_ENABLED = Boolean(cfg.admin?.enabled);
-const ADMIN_PIN = ADMIN_ENABLED ? (cfg.admin?.pin || '') : '';
+const IS_DEV = import.meta.env.DEV;
+const ADMIN_HASH = String(cfg.admin?.hash || 'cantoratati-admin').toLowerCase();
+const ADMIN_PIN = cfg.admin?.pin || '1234';
+const GITHUB_REPO = cfg.admin?.githubRepo || 'tiagograbski-crypto/cantoratati';
+const AGENDA_PATH = cfg.admin?.agendaPath || 'public/data/agenda.json';
 
 const STATUS = {
     AVAILABLE: 'available',
@@ -264,27 +268,48 @@ async function saveAgenda() {
     btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Salvando...';
     setSaveStatus('Salvando agenda...', 'info');
 
-    try {
-        const response = await fetch('/api/agenda/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ dates: availabilityData }),
-        });
+    if (IS_DEV) {
+        try {
+            const response = await fetch('/api/agenda/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dates: availabilityData }),
+            });
 
-        if (response.ok) {
-            const saved = await response.json();
-            applyAgendaPayload(saved);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-            setSaveStatus('Agenda salva em public/data/agenda.json', 'success');
+            if (response.ok) {
+                const saved = await response.json();
+                applyAgendaPayload(saved);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+                setSaveStatus('Agenda salva em public/data/agenda.json', 'success');
+                btn.disabled = false;
+                btn.innerHTML = btnHtml;
+                return;
+            }
+        } catch {}
+    } else {
+        try {
+            await saveAgendaToGithub({ repo: GITHUB_REPO, path: AGENDA_PATH, payload });
+            applyAgendaPayload(payload);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+            setSaveStatus('Agenda publicada no GitHub. O site atualiza em ~1 min.', 'success');
+            btn.disabled = false;
+            btn.innerHTML = btnHtml;
+            return;
+        } catch (err) {
+            if (err.code === 'NO_TOKEN') {
+                setSaveStatus('Configure o token GitHub abaixo para publicar no ar.', 'warn');
+            } else {
+                setSaveStatus(err.message || 'Falha ao publicar no GitHub.', 'error');
+            }
             btn.disabled = false;
             btn.innerHTML = btnHtml;
             return;
         }
-    } catch {}
+    }
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     applyAgendaPayload(payload);
-    setSaveStatus('Salva no navegador. Rode npm run dev para gravar no arquivo do projeto.', 'success');
+    setSaveStatus('Salva só neste navegador. Use dev local ou token GitHub no site publicado.', 'warn');
     btn.disabled = false;
     btn.innerHTML = btnHtml;
 }
@@ -296,8 +321,12 @@ function openAdminDashboard() {
     panel.setAttribute('aria-hidden', 'false');
     document.body.classList.add('admin-dashboard-open');
     clearAdminSelection();
+    syncAdminSaveHints();
+    syncGithubTokenStatus();
     renderAllCalendars();
-    setSaveStatus('Selecione um dia e escolha reservado ou indisponível. Depois clique em Salvar.', 'info');
+    setSaveStatus(IS_DEV
+        ? 'Selecione um dia e clique em Salvar agenda.'
+        : 'Configure o token GitHub (se ainda não fez) e salve para publicar.', 'info');
 }
 
 function closeAdminDashboard() {
@@ -315,8 +344,28 @@ const adminModal = document.getElementById('admin-modal');
 const adminModalContent = document.getElementById('admin-modal-content');
 const adminPinInput = document.getElementById('admin-pin');
 
+function isAdminHashRoute() {
+    return window.location.hash.replace(/^#/, '').toLowerCase() === ADMIN_HASH;
+}
+
+function canAccessAdmin() {
+    return IS_DEV || isAdminHashRoute();
+}
+
+function syncAdminSaveHints() {
+    document.querySelector('.admin-save-hint--dev')?.classList.toggle('hidden', !IS_DEV);
+    document.querySelector('.admin-save-hint--prod')?.classList.toggle('hidden', IS_DEV);
+    document.getElementById('admin-github-panel')?.classList.toggle('hidden', IS_DEV);
+}
+
+function syncGithubTokenStatus() {
+    const status = document.getElementById('admin-github-token-status');
+    if (!status || IS_DEV) return;
+    status.textContent = getGithubPat() ? 'Token guardado nesta sessão.' : 'Nenhum token guardado.';
+}
+
 window.openAdminLogin = () => {
-    if (!ADMIN_ENABLED) return;
+    if (!canAccessAdmin()) return;
     adminModal?.classList.remove('opacity-0', 'pointer-events-none');
     setTimeout(() => {
         adminModalContent?.classList.remove('scale-95');
@@ -347,6 +396,9 @@ window.submitAdminLogin = () => {
 window.exitAdmin = () => {
     closeAdminDashboard();
     setSaveStatus('', 'info');
+    if (isAdminHashRoute()) {
+        history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
 };
 
 adminPinInput?.addEventListener('keydown', (e) => {
@@ -355,28 +407,21 @@ adminPinInput?.addEventListener('keydown', (e) => {
 
 document.getElementById('admin-save-btn')?.addEventListener('click', saveAgenda);
 
-function configureAdminVisibility() {
-    if (!ADMIN_ENABLED) {
-        document.getElementById('footer-admin-btn')?.remove();
-        document.getElementById('admin-modal')?.remove();
-        document.getElementById('admin-dashboard')?.remove();
-        return;
-    }
+document.getElementById('admin-github-token-save')?.addEventListener('click', () => {
+    const input = document.getElementById('admin-github-token');
+    setGithubPat(input?.value || '');
+    if (input) input.value = '';
+    syncGithubTokenStatus();
+    setSaveStatus(getGithubPat() ? 'Token GitHub guardado nesta sessão.' : 'Token removido.', 'info');
+});
 
-    const mobileNav = document.querySelector('#mobile-menu nav');
-    if (mobileNav && !document.getElementById('mobile-admin-btn')) {
-        const btn = document.createElement('button');
-        btn.id = 'mobile-admin-btn';
-        btn.type = 'button';
-        btn.className = 'mobile-admin-btn';
-        btn.innerHTML = '<i class="fa-solid fa-lock" aria-hidden="true"></i> Painel da agenda';
-        btn.addEventListener('click', () => {
-            window.closeMobileMenu?.();
-            window.openAdminLogin();
-        });
-        mobileNav.appendChild(btn);
+function initAdminHashGate() {
+    if (isAdminHashRoute()) {
+        window.openAdminLogin();
     }
 }
 
-configureAdminVisibility();
+syncAdminSaveHints();
+window.addEventListener('hashchange', initAdminHashGate);
+initAdminHashGate();
 loadAgenda();
