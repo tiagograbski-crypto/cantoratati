@@ -460,7 +460,7 @@ summary:focus-visible {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Video gallery — grade centralizada 2×2 */
+/* Video gallery — grade 2×2 no desktop; carrossel snap no mobile */
 .video-gallery {
     display: grid;
     grid-template-columns: 1fr;
@@ -470,6 +470,35 @@ summary:focus-visible {
     margin-inline: auto;
     padding-inline: 1.25rem;
     justify-items: center;
+}
+
+@media (max-width: 639px) {
+    .snap-carousel__track.video-gallery,
+    .snap-carousel__track.testimonials-showcase {
+        display: flex;
+        grid-template-columns: unset;
+        align-items: stretch;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scroll-padding-inline: 1.25rem;
+        gap: 1rem;
+        padding-bottom: 0.35rem;
+    }
+
+    .snap-carousel__track.video-gallery .video-card {
+        flex: 0 0 min(88vw, 340px);
+        scroll-snap-align: center;
+        max-width: none;
+        width: auto;
+    }
+
+    .snap-carousel__track.testimonials-showcase .testimonial-card {
+        flex: 0 0 min(88vw, 340px);
+        scroll-snap-align: center;
+        height: auto;
+        min-height: 100%;
+    }
 }
 
 @media (min-width: 640px) {
@@ -1275,7 +1304,112 @@ summary:focus-visible {
     transform: translateX(0);
 }
 
-/* Press strip */
+/* Press strip + marquee */
+.press-strip {
+    overflow: hidden;
+}
+
+.press-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.press-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: pressMarquee 36s linear infinite;
+}
+
+.press-marquee:hover .press-marquee__track,
+.press-marquee:focus-within .press-marquee__track {
+    animation-play-state: paused;
+}
+
+.press-marquee__content {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    padding-inline: 0.875rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.press-marquee__sep {
+    color: rgba(212, 168, 75, 0.35);
+    user-select: none;
+}
+
+@keyframes pressMarquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* Snap carousels (mobile) */
+.snap-carousel__hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 0 0.85rem;
+    padding-inline: 1.25rem;
+    font-size: var(--text-caption);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.snap-carousel__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-inline: 1.25rem;
+}
+
+.snap-carousel__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: rgba(232, 196, 104, 0.22);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.snap-carousel__dot--active {
+    background: var(--gold-400);
+    transform: scale(1.2);
+}
+
+@media (min-width: 640px) {
+    .snap-carousel__hint,
+    .snap-carousel__dots {
+        display: none;
+    }
+}
+
+/* Conversion band — micro-conversão no meio do funil */
+.conversion-band {
+    padding: 3rem 0;
+}
+
+.conversion-band__inner {
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 768px) {
+    .conversion-band {
+        padding: 4rem 0;
+    }
+}
+
+/* Press links */
 .press-link {
     color: var(--color-text-muted);
     transition: color 0.2s ease;
@@ -1458,8 +1592,15 @@ body.admin-dashboard-open {
     display: none;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+    .press-marquee__track {
+        animation: none;
+    }
+
+    .snap-carousel__track {
+        scroll-snap-type: none;
+    }
+
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;

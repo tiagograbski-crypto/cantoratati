@@ -160,16 +160,29 @@
     </section>
 
     <!-- ═══ PRESS · AUTORIDADE ═══ -->
-    <section class="py-8 px-5 sm:px-6 border-y border-gold-500/10 bg-night-950/50" aria-label="Na mídia">
-        <p class="text-center text-label text-muted uppercase mb-4 tracking-widest">Palcos e mídia</p>
-        <div class="flex flex-wrap justify-center items-center gap-x-5 gap-y-2 max-w-4xl mx-auto text-sm">
-            <a href="https://www.instagram.com/festivalsonorachapeco/p/DTSrav0jaBg/" target="_blank" rel="noopener noreferrer" class="press-link font-serif font-bold">Sonora Chapecó <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i></a>
-            <span class="text-gold-500/20 hidden sm:inline" aria-hidden="true">·</span>
-            <a href="https://www.instagram.com/condafm/reel/DXhFVp8Dlod/" target="_blank" rel="noopener noreferrer" class="press-link font-semibold">Conda FM <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i></a>
-            <span class="text-gold-500/20 hidden sm:inline" aria-hidden="true">·</span>
-            <a href="https://www.instagram.com/meupaotostado/" target="_blank" rel="noopener noreferrer" class="press-link">@meupaotostado</a>
-            <span class="text-gold-500/20 hidden sm:inline" aria-hidden="true">·</span>
-            <a href="https://www.instagram.com/goldenhotelchapeco/" target="_blank" rel="noopener noreferrer" class="press-link">Golden Hotel</a>
+    <section class="press-strip py-8 border-y border-gold-500/10 bg-night-950/50" aria-label="Na mídia">
+        <p class="text-center text-label text-muted uppercase mb-4 tracking-widest px-5">Palcos e mídia</p>
+        <div class="press-marquee">
+            <div class="press-marquee__track">
+                <div class="press-marquee__content">
+                    <a href="https://www.instagram.com/festivalsonorachapeco/p/DTSrav0jaBg/" target="_blank" rel="noopener noreferrer" class="press-link font-serif font-bold">Sonora Chapecó <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i></a>
+                    <span class="press-marquee__sep" aria-hidden="true">·</span>
+                    <a href="https://www.instagram.com/condafm/reel/DXhFVp8Dlod/" target="_blank" rel="noopener noreferrer" class="press-link font-semibold">Conda FM <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i></a>
+                    <span class="press-marquee__sep" aria-hidden="true">·</span>
+                    <a href="https://www.instagram.com/meupaotostado/" target="_blank" rel="noopener noreferrer" class="press-link">@meupaotostado</a>
+                    <span class="press-marquee__sep" aria-hidden="true">·</span>
+                    <a href="https://www.instagram.com/goldenhotelchapeco/" target="_blank" rel="noopener noreferrer" class="press-link">Golden Hotel</a>
+                </div>
+                <div class="press-marquee__content" aria-hidden="true">
+                    <a href="https://www.instagram.com/festivalsonorachapeco/p/DTSrav0jaBg/" target="_blank" rel="noopener noreferrer" tabindex="-1" class="press-link font-serif font-bold">Sonora Chapecó <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i></a>
+                    <span class="press-marquee__sep" aria-hidden="true">·</span>
+                    <a href="https://www.instagram.com/condafm/reel/DXhFVp8Dlod/" target="_blank" rel="noopener noreferrer" tabindex="-1" class="press-link font-semibold">Conda FM <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i></a>
+                    <span class="press-marquee__sep" aria-hidden="true">·</span>
+                    <a href="https://www.instagram.com/meupaotostado/" target="_blank" rel="noopener noreferrer" tabindex="-1" class="press-link">@meupaotostado</a>
+                    <span class="press-marquee__sep" aria-hidden="true">·</span>
+                    <a href="https://www.instagram.com/goldenhotelchapeco/" target="_blank" rel="noopener noreferrer" tabindex="-1" class="press-link">Golden Hotel</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -275,7 +288,13 @@
             <p class="text-muted text-body-lg max-w-2xl mx-auto">Momentos reais em pubs, casamentos e eventos corporativos.</p>
         </div>
 
-        <div id="video-gallery" class="video-gallery reveal delay-200">
+        <div class="snap-carousel reveal delay-200">
+            <p class="snap-carousel__hint" aria-hidden="true">
+                <i class="fa-solid fa-hand-pointer" aria-hidden="true"></i>
+                Deslize para ver mais
+                <i class="fa-solid fa-arrow-right text-gold-400" aria-hidden="true"></i>
+            </p>
+            <div id="video-gallery" class="video-gallery snap-carousel__track" role="region" aria-label="Galeria de vídeos dos shows">
             <div class="video-card relative w-full aspect-video rounded-2xl overflow-hidden cursor-pointer group shadow-soft" data-video-key="youtube-live" role="button" tabindex="0">
                 <img src="https://img.youtube.com/vi/_FmobhKevFk/hqdefault.jpg" loading="lazy" width="480" height="270" class="photo-frame__img w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" alt="Tati Vanzan ao vivo no YouTube">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
@@ -339,18 +358,26 @@
                     <h3 class="font-serif text-h2 font-bold">Sonora Chapecó</h3>
                 </div>
             </div>
+            </div>
+            <div class="snap-carousel__dots" data-snap-dots="video-gallery" aria-label="Navegação da galeria de vídeos"></div>
         </div>
     </section>
 
     <!-- ═══ DEPOIMENTOS ═══ -->
-    <section id="depoimentos" class="section-padding reveal">
+    <section id="depoimentos" class="section-padding section-elevated relative overflow-hidden reveal">
         <div class="text-center mb-10 px-5">
             <span class="text-gold-400 font-bold text-label uppercase mb-2 block tracking-widest">Prova social</span>
             <h2 class="font-serif text-h1 font-bold mb-3 text-balance">Quem contratou, recomenda</h2>
             <p class="text-muted text-body-lg">O que dizem bares, casamentos e eventos corporativos.</p>
         </div>
 
-        <div class="testimonials-showcase">
+        <div class="snap-carousel">
+            <p class="snap-carousel__hint" aria-hidden="true">
+                <i class="fa-solid fa-hand-pointer" aria-hidden="true"></i>
+                Deslize para ver mais
+                <i class="fa-solid fa-arrow-right text-gold-400" aria-hidden="true"></i>
+            </p>
+            <div id="testimonials-gallery" class="testimonials-showcase snap-carousel__track" role="region" aria-label="Depoimentos de clientes">
             <article class="testimonial-card glass-panel p-6 rounded-2xl">
                 <span class="testimonial-tag">Pub</span>
                 <div class="flex gap-1 mb-3 text-gold-400 text-sm" aria-label="5 estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
@@ -390,6 +417,25 @@
                     <div><p class="font-bold text-sm">Viação São Paulo</p><p class="text-label text-muted">Evento corporativo</p></div>
                 </div>
             </article>
+            </div>
+            <div class="snap-carousel__dots" data-snap-dots="testimonials-gallery" aria-label="Navegação dos depoimentos"></div>
+        </div>
+    </section>
+
+    <!-- ═══ CONVERSÃO INTERMEDIÁRIA ═══ -->
+    <section class="conversion-band section-dark" aria-label="Reserve sua data">
+        <div class="conversion-band__inner max-w-4xl mx-auto px-5 sm:px-6 text-center reveal">
+            <span class="badge-gold text-xs mb-4"><i class="fa-solid fa-fire" aria-hidden="true"></i> 8 shows por mês</span>
+            <h2 class="font-serif text-h1 font-bold mb-3 text-balance">Pronto para levar essa energia pro seu evento?</h2>
+            <p class="text-muted text-body-lg mb-7 max-w-2xl mx-auto">Escolha uma data disponível ou fale direto no WhatsApp — retorno em até 2h.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center">
+                <a href="#reservar" class="btn-cta-primary w-full sm:w-auto">
+                    <i class="fa-regular fa-calendar-check"></i> Ver calendário
+                </a>
+                <a href="https://wa.me/5549991136430?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20meu%20evento%20inesquec%C3%ADvel%20com%20a%20Tati%20Vanzan." target="_blank" rel="noopener noreferrer" class="btn-cta-secondary w-full sm:w-auto">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
         </div>
     </section>
 

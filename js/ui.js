@@ -276,3 +276,62 @@ window.submitForm = submitForm;
 window.openVideoModal = openVideoModal;
 window.closeVideoModal = closeVideoModal;
 window.scrollGallery = scrollGallery;
+
+function initSnapCarousels() {
+    const desktopQuery = window.matchMedia('(min-width: 640px)');
+
+    document.querySelectorAll('[data-snap-dots]').forEach((dotsContainer) => {
+        const track = document.getElementById(dotsContainer.dataset.snapDots);
+        if (!track) return;
+
+        const slides = [...track.children].filter((node) => (
+            node.classList.contains('video-card') || node.classList.contains('testimonial-card')
+        ));
+        if (slides.length < 2) return;
+
+        const dots = slides.map((_, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = `snap-carousel__dot${index === 0 ? ' snap-carousel__dot--active' : ''}`;
+            dot.setAttribute('aria-label', `Ir para item ${index + 1}`);
+            dot.addEventListener('click', () => {
+                slides[index].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            });
+            dotsContainer.appendChild(dot);
+            return dot;
+        });
+
+        let scrollTimer;
+        const updateActiveDot = () => {
+            if (desktopQuery.matches) return;
+
+            const trackRect = track.getBoundingClientRect();
+            const center = trackRect.left + trackRect.width / 2;
+            let activeIndex = 0;
+            let nearest = Infinity;
+
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                const distance = Math.abs((rect.left + rect.width / 2) - center);
+                if (distance < nearest) {
+                    nearest = distance;
+                    activeIndex = index;
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('snap-carousel__dot--active', index === activeIndex);
+            });
+        };
+
+        track.addEventListener('scroll', () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(updateActiveDot, 60);
+        }, { passive: true });
+
+        desktopQuery.addEventListener('change', updateActiveDot);
+        updateActiveDot();
+    });
+}
+
+initSnapCarousels();
