@@ -106,7 +106,6 @@ function applyAgendaPayload(payload) {
     hasUnsavedChanges = false;
     updateAdminDatePanel();
     renderAllCalendars();
-    updateAvailabilityTeaser();
 }
 
 async function fetchAgendaFromSite() {
@@ -129,42 +128,6 @@ async function loadAgenda() {
     } catch {}
 
     renderAllCalendars();
-    updateAvailabilityTeaser();
-}
-
-function countAvailableDatesInCurrentMonth() {
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    let count = 0;
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        const currentDate = new Date(year, month, day);
-        currentDate.setHours(0, 0, 0, 0);
-        if (currentDate < today || currentDate > maxDate) continue;
-
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        if (normalizeStatus(availabilityData[dateStr]) === STATUS.AVAILABLE) count++;
-    }
-
-    return count;
-}
-
-function updateAvailabilityTeaser() {
-    const teaser = document.getElementById('availability-teaser');
-    const textEl = document.getElementById('availability-teaser-text');
-    if (!teaser || !textEl) return;
-
-    const count = countAvailableDatesInCurrentMonth();
-    if (count <= 0) {
-        teaser.classList.add('hidden');
-        return;
-    }
-
-    textEl.textContent = count === 1
-        ? '1 data livre neste mês — reserve agora'
-        : `${count} datas livres neste mês`;
-    teaser.classList.remove('hidden');
 }
 
 function applyDayStatus(btn, status, { adminMode, isPast, isBeyondMax, dateStr }) {
