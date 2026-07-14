@@ -39,7 +39,8 @@ Variáveis em `.env.local`:
 
 ### Site publicado (GitHub Pages)
 
-**URL do painel:** https://tiagograbski-crypto.github.io/cantoratati/#cantoratati-admin
+**URL do painel:** https://tiagograbski-crypto.github.io/cantoratati/admin  
+(atalho que redireciona para `#cantoratati-admin`)
 
 1. Acesse o link acima (não há cadeado visível no site)
 2. Digite a senha (`VITE_ADMIN_PIN` configurada nos Secrets do GitHub)

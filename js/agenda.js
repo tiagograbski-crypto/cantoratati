@@ -348,8 +348,16 @@ function isAdminHashRoute() {
     return window.location.hash.replace(/^#/, '').toLowerCase() === ADMIN_HASH;
 }
 
+function isAdminPathRoute() {
+    return /\/admin\/?$/.test(window.location.pathname);
+}
+
+function isAdminEntryRoute() {
+    return isAdminHashRoute() || isAdminPathRoute();
+}
+
 function canAccessAdmin() {
-    return IS_DEV || isAdminHashRoute();
+    return IS_DEV || isAdminEntryRoute();
 }
 
 function syncAdminSaveHints() {
@@ -396,8 +404,9 @@ window.submitAdminLogin = () => {
 window.exitAdmin = () => {
     closeAdminDashboard();
     setSaveStatus('', 'info');
-    if (isAdminHashRoute()) {
-        history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    if (isAdminEntryRoute()) {
+        const base = window.location.pathname.replace(/\/admin\/?$/, '/') || '/';
+        history.replaceState(null, '', `${base}${window.location.search}`);
     }
 };
 
@@ -415,13 +424,13 @@ document.getElementById('admin-github-token-save')?.addEventListener('click', ()
     setSaveStatus(getGithubPat() ? 'Token GitHub guardado nesta sessão.' : 'Token removido.', 'info');
 });
 
-function initAdminHashGate() {
+function initAdminGate() {
     if (isAdminHashRoute()) {
         window.openAdminLogin();
     }
 }
 
 syncAdminSaveHints();
-window.addEventListener('hashchange', initAdminHashGate);
-initAdminHashGate();
+window.addEventListener('hashchange', initAdminGate);
+initAdminGate();
 loadAgenda();
