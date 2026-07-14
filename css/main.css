@@ -256,6 +256,24 @@ body.has-floating-cta {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
+.navbar-cta {
+    transition: opacity 0.25s ease, transform 0.25s ease, max-width 0.25s ease, margin 0.25s ease, padding 0.25s ease;
+}
+
+@media (max-width: 767px) {
+    .navbar-cta.navbar-cta--suppressed {
+        opacity: 0;
+        transform: scale(0.94);
+        pointer-events: none;
+        max-width: 0;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        border-width: 0;
+    }
+}
+
 /* CTAs */
 .btn-cta-primary {
     display: inline-flex;
