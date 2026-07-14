@@ -9,7 +9,6 @@ permissions:
   contents: write
   pages: write
   id-token: write
-  administration: write
 
 concurrency:
   group: pages
@@ -52,6 +51,7 @@ jobs:
           commit_message: 'Deploy production build from ${{ github.sha }}'
 
       - name: Configure GitHub Pages source (gh-pages)
+        continue-on-error: true
         run: |
           status=$(curl -sS -o /tmp/pages-response.json -w "%{http_code}" -X PUT \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
@@ -62,3 +62,22 @@ jobs:
           echo "Pages API status: $status"
           cat /tmp/pages-response.json
           test "$status" = "200" -o "$status" = "204"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload production artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
