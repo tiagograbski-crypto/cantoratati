@@ -325,14 +325,21 @@ body.has-floating-cta {
     color: var(--night-900);
     background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
     box-shadow: 0 0 20px rgba(232, 196, 104, 0.3);
-    white-space: nowrap;
     max-width: 100%;
+    text-align: center;
+    text-wrap: balance;
 }
 
 .badge-gold--single-line {
     font-size: 0.6875rem;
     padding: 0.4rem 0.9rem;
     letter-spacing: 0.06em;
+}
+
+@media (min-width: 480px) {
+    .badge-gold--single-line {
+        white-space: nowrap;
+    }
 }
 
 /* Nav */
@@ -738,15 +745,16 @@ summary:focus-visible {
 
 .hero-corner-banner {
     position: absolute;
-    bottom: 6%;
-    right: -6%;
+    bottom: 5%;
+    right: 0;
     z-index: 20;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 9.5rem;
+    min-width: 8.5rem;
+    max-width: calc(100% - 0.25rem);
     height: 2.35rem;
-    padding: 0 1rem;
+    padding: 0 0.75rem;
     border-radius: 0.65rem;
     overflow: hidden;
     border: 1px solid rgba(232, 196, 104, 0.32);
@@ -897,7 +905,9 @@ summary:focus-visible {
         bottom: 5%;
         right: -8%;
         min-width: 10.5rem;
+        max-width: none;
         height: 2.5rem;
+        padding: 0 1rem;
     }
 
     .pillar-card {
@@ -928,6 +938,13 @@ summary:focus-visible {
 @media (min-width: 640px) {
     .hero-photo-frame-wrap {
         max-width: 320px;
+    }
+
+    .hero-corner-banner {
+        right: -4%;
+        min-width: 9.5rem;
+        max-width: none;
+        padding: 0 1rem;
     }
 }
 
@@ -1066,10 +1083,25 @@ summary:focus-visible {
 }
 
 /* Calendar */
+#calendar-grid,
+#admin-calendar-grid {
+    width: 100%;
+}
+
+@media (max-width: 479px) {
+    #calendar-grid,
+    #admin-calendar-grid {
+        column-gap: 0.25rem;
+        row-gap: 0.625rem;
+        font-size: 0.8125rem;
+    }
+}
+
 .calendar-day {
-    min-width: 44px;
+    width: 100%;
+    max-width: 100%;
     min-height: 44px;
-    max-width: 44px;
+    aspect-ratio: 1;
     border: 1.5px solid transparent;
     font-weight: 600;
 }
