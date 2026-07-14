@@ -62,7 +62,7 @@ if (heroSection) {
 
 // Active nav link on scroll
 const navLinks = document.querySelectorAll('[data-nav]');
-const sectionIds = ['eventos', 'diferenciais', 'midia', 'depoimentos', 'duvidas', 'reservar'];
+const sectionIds = ['eventos', 'midia', 'depoimentos', 'duvidas', 'reservar'];
 const navObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -91,6 +91,8 @@ function toggleMobileMenu(open) {
     mobileMenuBackdrop?.classList.toggle('open', open);
     document.body.classList.toggle('mobile-nav-open', open);
 }
+
+window.closeMobileMenu = () => toggleMobileMenu(false);
 
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', () => toggleMobileMenu(true));
@@ -260,7 +262,7 @@ function submitForm(e) {
     const date = dateDisplay.textContent.trim();
 
     const message = [
-        'Olá! Gostaria de fazer meu evento inesquecível com a Tati Vanzan!',
+        'Olá! Gostaria de pedir orçamento com a Tati Vanzan.',
         '',
         `📅 Data: ${date}`,
         `👤 Nome: ${name}`,

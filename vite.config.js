@@ -44,7 +44,8 @@ function agendaDevApi() {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const base = env.VITE_BASE_PATH || (mode === 'production' ? '/cantoratati/' : '/');
+  // Dev local sempre em / — evita VITE_BASE_PATH do sistema (ex.: /cantoratati/)
+  const base = mode === 'development' ? '/' : (env.VITE_BASE_PATH || '/cantoratati/');
 
   return {
     base,

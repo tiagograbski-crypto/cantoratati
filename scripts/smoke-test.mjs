@@ -22,6 +22,15 @@ if (!existsSync(distDir)) {
     if (html.includes('src="/js/main.js"') || html.includes('href="/css/main.css"')) {
       fail('Build ainda referencia arquivos fonte (/js ou /css) em vez do bundle.');
     }
+    if (!html.includes('section-fit-value__divider')) {
+      fail('HTML sem section-fit-value__divider (seções empilhadas).');
+    }
+    if (!html.includes('Pedir orçamento')) {
+      fail('HTML sem CTA unificado "Pedir orçamento".');
+    }
+    if (!html.includes('footer-admin-btn')) {
+      fail('HTML sem botão footer-admin-btn.');
+    }
   }
 
   const agendaPath = join(distDir, 'data', 'agenda.json');
@@ -34,6 +43,16 @@ if (!existsSync(distDir)) {
     const assets = readdirSync(assetsDir);
     if (!assets.some((file) => file.endsWith('.css'))) fail('Bundle CSS ausente em dist/assets.');
     if (!assets.some((file) => file.endsWith('.js'))) fail('Bundle JS ausente em dist/assets.');
+    const cssFile = assets.find((file) => file.endsWith('.css'));
+    if (cssFile) {
+      const css = readFileSync(join(assetsDir, cssFile), 'utf8');
+      if (!css.includes('section-fit-value__divider')) {
+        fail('CSS sem section-fit-value__divider.');
+      }
+      if (!css.includes('hero-layout') || !css.includes('grid-template-columns')) {
+        fail('CSS sem hero split (grid) no desktop.');
+      }
+    }
     if (!assets.some((file) => file.endsWith('.jpg') || file.endsWith('.webp'))) {
       fail('Nenhuma imagem otimizada encontrada em dist/assets.');
     }

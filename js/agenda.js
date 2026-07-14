@@ -356,11 +356,26 @@ adminPinInput?.addEventListener('keydown', (e) => {
 document.getElementById('admin-save-btn')?.addEventListener('click', saveAgenda);
 
 function configureAdminVisibility() {
-    if (ADMIN_ENABLED) return;
+    if (!ADMIN_ENABLED) {
+        document.getElementById('footer-admin-btn')?.remove();
+        document.getElementById('admin-modal')?.remove();
+        document.getElementById('admin-dashboard')?.remove();
+        return;
+    }
 
-    document.querySelector('[aria-label="Área administrativa"]')?.remove();
-    document.getElementById('admin-modal')?.remove();
-    document.getElementById('admin-dashboard')?.remove();
+    const mobileNav = document.querySelector('#mobile-menu nav');
+    if (mobileNav && !document.getElementById('mobile-admin-btn')) {
+        const btn = document.createElement('button');
+        btn.id = 'mobile-admin-btn';
+        btn.type = 'button';
+        btn.className = 'mobile-admin-btn';
+        btn.innerHTML = '<i class="fa-solid fa-lock" aria-hidden="true"></i> Painel da agenda';
+        btn.addEventListener('click', () => {
+            window.closeMobileMenu?.();
+            window.openAdminLogin();
+        });
+        mobileNav.appendChild(btn);
+    }
 }
 
 configureAdminVisibility();
